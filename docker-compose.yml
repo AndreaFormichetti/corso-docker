@@ -1,24 +1,8 @@
-version: "3"
+version: '3'
 services:
   web:
-    restart: "unless-stopped"
     build:
       context: .
-      dockerfile: ./Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    volumes:
-      - /home/node/app/node_modules
-      - .:/home/node/app
-  web-test:
-    restart: "always"
-    build: 
-      context: .
-      dockerfile: ./Dockerfile.dev
-    volumes:
-      - /home/node/app/node_modules
-      - .:/home/node/app
-    command: ["npm", "run", "test"]
-  redis:
-    image: "redis"
-    restart: "unless-stopped"
+      - '80:80'
