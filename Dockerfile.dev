@@ -1,0 +1,21 @@
+# FROM: specifica immagine di base con il minimo necessario per il servizio
+# RUN: esegui comandi nel container, utile per scaricare dipendenze e operazioni di setup
+# CMD: imposta il comando di startup del container
+# COPY: copia dei file dal pc al container (percorso del nostro parte dall'execution context (ultimo argomento di docker build))
+# WORKDIR: imposta la working directory nel container (quasi come un cd)
+# USER: imposta l'utente di default del container (non root)
+    
+FROM node:alpine
+    
+USER node
+    
+RUN mkdir -p /home/node/app
+WORKDIR /home/node/app
+    
+COPY --chown=node:node ./package.json ./
+RUN npm install
+
+#non necessario se usi i volumi come hai fatto su docker-compose.yml ma se voglio buildare a caso senza settare volumi tengo questa riga e funziona comunque
+COPY --chown=node:node ./ ./
+    
+CMD ["npm", "start"]
